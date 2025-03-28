@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agiles Projektmanagement Assessment</title>
+  <!-- Google Fonts für modernes Erscheinungsbild -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: #f7f7f7;
+      color: #333;
+    }
+    header {
+      width: 100%;
+      background: #2e8b57;
+      color: #fff;
+      padding: 20px 0;
+    }
+    /* Header-Inhalt: Logo und Titel nebeneinander zentriert */
+    header .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    header .logo {
+      margin-right: 10px;
+    }
+    header .logo svg {
+      width: 50px;
+      height: auto;
+    }
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0;
+    }
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 20px;
+    }
+    /* Intro Text */
+    .intro {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+    /* Startseite */
+    .wizard-start {
+      text-align: center;
+      padding: 10px 20px;
+    }
+    .wizard-start h2 {
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      color: #2e8b57;
+    }
+    .wizard-start p {
+      margin-bottom: 30px;
+      line-height: 1.5;
+      font-size: 1rem;
+      color: #555;
+      text-align: justify;
+    }
+    /* STEP-PROGRESS-BAR */
+    .step-progress {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+    .step-progress .step {
+      width: 40px;
+      height: 40px;
+      background: #ccc;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+    .step-progress .step.active {
+      background: #2e8b57;
+    }
+    .step-progress .step.completed {
+      background: #87c08f;
+    }
+    .step-progress .step-line {
+      flex: 1;
+      height: 4px;
+      background: #ccc;
+      margin: 0 10px;
+      position: relative;
+      top: -2px;
+    }
+    .step-progress .step-line.fill {
+      background: #2e8b57;
+    }
+    /* Wizard Steps */
+    .wizard-step {
+      display: none;
+    }
+    .wizard-step.active {
+      display: block;
+    }
+    h2.dimension {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+      color: #2e8b57;
+      border-bottom: 2px solid #2e8b57;
+      padding-bottom: 8px;
+    }
+    /* Fragen & Optionen */
+    .question {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+    }
+    .question p {
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 1rem;
+      color: #444;
+    }
+    .options label {
+      display: block;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      background: #fff;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .options label:hover {
+      background: #eef9f0;
+      border-color: #2e8b57;
+    }
+    .options input {
+      margin-right: 10px;
+    }
+    /* Navigation Buttons */
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    .navigation-buttons button {
+      background: #2e8b57;
+      color: #fff;
+      border: none;
+      padding: 14px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .navigation-buttons button:hover {
+      background: #256d47;
+    }
+    .navigation-buttons button[disabled] {
+      opacity: 0.5;
+      cursor: default;
+    }
+    /* Ergebnis Cards (Ergebnis-Seite) */
+    .results-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    @media (min-width: 700px) {
+      .results-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .result-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      background: #f9f9f9;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .result-card h3 {
+      margin-bottom: 10px;
+      color: #2e8b57;
+    }
+    .result-card p {
+      font-size: 0.95rem;
+      line-height: 1.4;
+      color: #444;
+      text-align: justify;
+    }
+    /* Neutraler Ergebnisbereich (ohne Farbkodierung) */
+    .result.neutral {
+      background: #f9f9f9;
+      border-left: none;
+      padding-left: 10px;
+    }
+    /* Arrowchart (Ergebnis) */
+    .arrow-chart {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .arrow-chart div {
+      flex: 1;
+      text-align: center;
+      font-size: 1rem;
+      padding: 10px;
+      position: relative;
+    }
+    .arrow-chart div:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 8px solid #ccc;
+    }
+    .arrow-chart .active {
+      font-weight: 700;
+      color: #2e8b57;
+    }
+    /* Eingerückte Liste in der Empfehlung */
+    #nextMaturitySection ul {
+      margin-left: 20px;
+      padding-left: 20px;
+    }
+    /* Dimension-Kommentarbox */
+    #dimensionCommentary {
+      margin-top: 20px;
+      margin-bottom: 30px;
+      padding: 10px;
+      background: #f1f1f1;
+      border-left: 4px solid #2e8b57;
+      font-size: 0.95rem;
+      color: #333;
+    }
+    /* Container für die Dimensionseinstufung: eckig (ohne Border-Radius) */
+    .dimension-container {
+      border-left: 4px solid;
+      border-radius: 0;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    /* Farbige Boxen für Dimensionseinstufung */
+    .result.red {
+      background: #ffebee;
+      border-left-color: #e53935;
+    }
+    .result.orange {
+      background: #fff3e0;
+      border-left-color: #fb8c00;
+    }
+    .result.yellow {
+      background: #fffde7;
+      border-left-color: #fbc02d;
+    }
+    .result.green {
+      background: #e8f5e9;
+      border-left-color: #2e8b57;
+    }
+
+    .submit-button {
+      background: #2e8b57;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 14px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 20px;
+      display: block;
+      width: 100%;
+    }
+    .submit-button:hover {
+      background: #256d47;
+    }
+    @media (max-width: 600px) {
+      .step-progress .step-line {
+        margin: 0 5px;
+      }
+      .step-progress .step-line.fill {
+        background: #2e8b57;
+      }
+      .navigation-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .navigation-buttons button {
+        width: 100%;
+      }
+    }
+    /* CSS für die klappbaren Handlungsempfehlungen (Details-Elemente) */
+    details.recommendation {
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      background: #f2f2f2;
+    }
+    details.recommendation summary {
+      font-weight: bold;
+      cursor: pointer;
+      list-style: none;
+      position: relative;
+      padding-right: 25px; /* Platz für das Pfeilsymbol */
+    }
+    details.recommendation summary::-webkit-details-marker {
+      display: none;
+    }
+    /* Pfeilsymbol hinzufügen */
+    details.recommendation summary::after {
+      content: '▼';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: transform 0.3s ease;
+    }
+    /* Pfeil beim Öffnen drehen */
+    details.recommendation[open] summary::after {
+      transform: translateY(-50%) rotate(-180deg);
+    }
+    details.recommendation p {
+      margin-top: 8px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    details.recommendation p.source {
+      font-size: 0.85rem;
+      color: #888;
+    }
+    details.recommendation p.source a {
+      color: #2e8b57;
+      text-decoration: none;
+    }
+    details.recommendation p.source a:hover {
+      text-decoration: underline;
+    }
+    /* Neuer Abstand zwischen "Konkrete Handlungsempfehlungen:" und dem ersten Kasten */
+    #nextMaturitySection h4 {
+      margin-bottom: 15px;
+    }
+    /* Zusätzliche Regel: Blocksatz für Disclaimer- und PDF-Bericht-Texte */
+    .disclaimer p,
+    .pdf-download p {
+      text-align: justify;
+    }
+  </style>
+  <!-- jsPDF Bibliothek einbinden -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- Optionale Bibliothek, um HTML-Elemente in Canvas zu rendern (falls benötigt) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <!-- Neues Logo mit viewBox -->
+        <svg viewBox="0 0 695 552" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" overflow="hidden">
+          <g transform="translate(-1136 -1051)"><path d="M1451.52 1144.09C1360.95 1144.09 1287.53 1217.49 1287.53 1308.02 1287.53 1398.56 1360.95 1471.95 1451.52 1471.95 1542.1 1471.95 1615.52 1398.56 1615.52 1308.02 1615.52 1217.49 1542.1 1144.09 1451.52 1144.09ZM1451.52 1055.5C1591.05 1055.5 1704.15 1168.56 1704.15 1308.02 1704.15 1377.75 1675.88 1440.88 1630.16 1486.58L1625.46 1490.45 1754.44 1490.45 1754.44 1454.44 1826.5 1526.47 1754.44 1598.5 1754.44 1562.48 1140.5 1562.48 1140.5 1490.45 1277.58 1490.45 1272.89 1486.58C1227.17 1440.88 1198.89 1377.75 1198.89 1308.02 1198.89 1168.56 1312 1055.5 1451.52 1055.5Z" stroke="#2E8B57" stroke-width="9.16667" stroke-linejoin="round" stroke-miterlimit="10" fill="#FFFFFF" fill-rule="evenodd"/><path d="M273 0C374.371 0 467.395 29.319 514.598 76.1457" stroke="#2E8B57" stroke-width="9.16667" stroke-linejoin="round" stroke-miterlimit="10" fill="none" fill-rule="evenodd" transform="matrix(1 -1.22465e-16 -1.22465e-16 -1 1114.5 1563.5)"/><path d="M495.5 0C580.83 0 664.715 6.33738 739.028 18.3983" stroke="#2E8B57" stroke-width="9.16667" stroke-linejoin="round" stroke-miterlimit="10" fill="none" fill-rule="evenodd" transform="matrix(1 -1.22465e-16 -1.22465e-16 -1 724.5 1490.5)"/></g>
+        </svg>
+      </div>
+      <h1>Agiles Projektmanagement Self-Assessment</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Startseite -->
+    <div class="wizard-start active" id="startPage">
+      <h2>Willkommen zum Self-Assessment für Agiles Projektmanagement!</h2>
+      <p>
+        Dieses Tool wurde speziell entwickelt, um Teams und Organisationen dabei zu unterstützen,
+        ihren aktuellen Reifegrad in agilen Arbeitsweisen zu ermitteln. Es basiert auf einem
+        wissenschaftlich fundierten Reifegradmodell, das sich aus der Fachliteratur ableitet und
+        den Prinzipien des Agilen Manifests folgt – unabhängig von spezifischen Frameworks wie Scrum oder XP.
+        <br><br>
+        <strong>Unsere Zielsetzung:</strong><br>
+        - <strong>Reifegrad erfassen:</strong> Messen Sie den Stand Ihres agilen Projektmanagements.<br>
+        - <strong>Stärken &amp; Potenziale erkennen:</strong> Identifizieren Sie, in welchen Bereichen Sie bereits erfolgreich
+          arbeiten und wo noch Verbesserungspotenzial besteht.<br>
+        - <strong>Gezielte Handlungsempfehlungen:</strong> Leiten Sie konkrete Maßnahmen ab, um Ihre agilen Prozesse
+          weiter zu optimieren.
+        <br><br>
+        <strong>Für wen ist dieses Tool gedacht?</strong><br>
+        Das Self-Assessment richtet sich an alle, die in Softwareentwicklungsprojekten involviert sind – sei es als Führungskraft,
+        Entwickler, Product Owner oder in einer anderen Rolle. Es ermöglicht, unterschiedliche Perspektiven im Team zu erfassen und
+        so ein umfassendes Bild der agilen Reife zu gewinnen.
+        <br><br>
+        <strong>Praxisnah und effizient:</strong><br>
+        Die klar und präzise formulierten Fragen ermöglichen Ihnen, das Assessment in etwa 20 Minuten zu absolvieren – schnell,
+        unkompliziert und ohne Überforderung.
+        <br><br>
+        <strong>Validiert und erprobt:</strong><br>
+        Das Tool wurde von Experten validiert und in einem interdisziplinären Testlauf erprobt, um sicherzustellen, dass die Ergebnisse
+        praxisnah und aussagekräftig sind.
+        <br><br>
+        Starten Sie jetzt Ihr Self-Assessment und entdecken Sie, wie Sie Ihre agile Arbeitsweise noch erfolgreicher gestalten können!
+      </p>
+      <button type="button" class="submit-button" onclick="startAssessment()">Start</button>
+    </div>
+
+    <!-- Wizard-Bereich (zunächst ausgeblendet) -->
+    <div id="assessmentWizard" style="display: none;">
+      <!-- STEP-PROGRESS-BAR -->
+      <div class="step-progress" id="stepProgress">
+        <div class="step active">1</div>
+        <div class="step-line"></div>
+        <div class="step">2</div>
+        <div class="step-line"></div>
+        <div class="step">3</div>
+        <div class="step-line"></div>
+        <div class="step">4</div>
+        <div class="step-line"></div>
+        <div class="step">🏁</div>
+      </div>
+
+      <!-- Formular (Wizard) -->
+      <form id="assessmentForm">
+        <!-- Schritt 1: Kundenfokussierte Anpassungsfähigkeit -->
+        <div class="wizard-step active" data-step="1">
+          <h2 class="dimension">Kundenfokussierte Anpassungsfähigkeit</h2>
+          <!-- Fragen 1-4 -->
+          <div class="question">
+            <p>1. In definierten Abständen wird Zeit für eine Reflexion des Projektablaufs eingeplant, um Verbesserungsmöglichkeiten zu identifizieren.</p>
+            <div class="options">
+              <label><input type="radio" name="q1" value="1">Nie – Keine Reflexion.</label>
+              <label><input type="radio" name="q1" value="2">Selten – Sporadische Reflexion, meist nur bei gravierenden Problemen.</label>
+              <label><input type="radio" name="q1" value="3">Manchmal – Unregelmäßige, unstrukturierte Reflexion.</label>
+              <label><input type="radio" name="q1" value="4">Regelmäßig – Geplante Reflexion in definierten Intervallen.</label>
+              <label><input type="radio" name="q1" value="5">Konsequent – Systematische Reflexion fast nach jeder Iteration mit klaren Maßnahmen.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>2. Anforderungen werden bei Bedarf aktualisiert, um auf neue Erkenntnisse, Kundenfeedback oder Marktveränderungen zu reagieren.</p>
+            <div class="options">
+              <label><input type="radio" name="q2" value="1">Nie – Keine Anpassung der Anforderungen.</label>
+              <label><input type="radio" name="q2" value="2">Selten – Anpassungen nur in Ausnahmefällen.</label>
+              <label><input type="radio" name="q2" value="3">Manchmal – Gelegentliche Aktualisierungen bei Bedarf.</label>
+              <label><input type="radio" name="q2" value="4">Regelmäßig – Regelmäßige Überarbeitung bei relevanten Änderungen.</label>
+              <label><input type="radio" name="q2" value="5">Konsequent – Strukturiertes und zuverlässiges Anpassen bei nahezu allen relevanten Änderungen.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>3. Kundenfeedback fließt in den Entwicklungsprozess ein und beeinflusst Planung sowie Durchführung der Entwicklungsphasen.</p>
+            <div class="options">
+              <label><input type="radio" name="q3" value="1">Nie – Feedback wird nicht integriert.</label>
+              <label><input type="radio" name="q3" value="2">Selten – Feedback wird nur in Ausnahmefällen berücksichtigt.</label>
+              <label><input type="radio" name="q3" value="3">Manchmal – Feedback wird sporadisch, ohne systematischen Ansatz einbezogen.</label>
+              <label><input type="radio" name="q3" value="4">Regelmäßig – Feedback fließt in den meisten Entwicklungsphasen aktiv ein.</label>
+              <label><input type="radio" name="q3" value="5">Konsequent – Feedback wird systematisch und zuverlässig in alle relevanten Phasen integriert.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>4. Kunden stehen im Entwicklungsprozess zur Verfügung, um zeitnahe Rückmeldungen und Entscheidungen zu ermöglichen.</p>
+            <div class="options">
+              <label><input type="radio" name="q4" value="1">Nie – Kunden sind nicht erreichbar.</label>
+              <label><input type="radio" name="q4" value="2">Selten – Kunden sind nur in Ausnahmefällen erreichbar.</label>
+              <label><input type="radio" name="q4" value="3">Manchmal – Kunden sind gelegentlich verfügbar, bei gezielter Anfrage.</label>
+              <label><input type="radio" name="q4" value="4">Regelmäßig – Kunden sind in den meisten Phasen gut erreichbar.</label>
+              <label><input type="radio" name="q4" value="5">Konsequent – Kunden sind stets zuverlässig erreichbar.</label>
+            </div>
+          </div>
+          <div class="navigation-buttons">
+            <button type="button" disabled>Zurück</button>
+            <button type="button" class="next-btn" onclick="goToStep(2)">Weiter</button>
+          </div>
+        </div>
+
+        <!-- Schritt 2: Produktverbesserung -->
+        <div class="wizard-step" data-step="2">
+          <h2 class="dimension">Produktverbesserung</h2>
+          <!-- Fragen 5-9 -->
+          <div class="question">
+            <p>5. Um Anforderungen an ein Produkt zu formulieren, findet zu Beginn mit allen Beteiligten ein Treffen statt, z. B. in Form von Workshops.</p>
+            <div class="options">
+              <label><input type="radio" name="q5" value="1">Nicht vorhanden – Kein gemeinsames Planungstreffen.</label>
+              <label><input type="radio" name="q5" value="2">Eingeschränkt vorhanden – Treffen mit unzureichender Vorbereitung und Beteiligung.</label>
+              <label><input type="radio" name="q5" value="3">Teilweise etabliert – Treffen erfolgen; Vorbereitung und Beteiligung sind teils ausreichend.</label>
+              <label><input type="radio" name="q5" value="4">Weitgehend etabliert – Treffen mit den meisten relevanten Stakeholdern sind angemessen vorbereitet.</label>
+              <label><input type="radio" name="q5" value="5">Vollständig etabliert – Treffen sind konsequent vorbereitet und involvieren alle relevanten Stakeholder.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>6. Unsere Entwicklungsprozesse ermöglichen eine kontinuierliche Auslieferung von Produktaktualisierungen, um schnell auf Marktbedürfnisse reagieren zu können.</p>
+            <div class="options">
+              <label><input type="radio" name="q6" value="1">Nicht vorhanden – Keine Prozesse für kontinuierliche Auslieferung.</label>
+              <label><input type="radio" name="q6" value="2">Eingeschränkt vorhanden – Erste Ansätze existieren, werden aber kaum genutzt.</label>
+              <label><input type="radio" name="q6" value="3">Teilweise etabliert – Teilweise Umsetzung, jedoch uneinheitlich.</label>
+              <label><input type="radio" name="q6" value="4">Weitgehend etabliert – Prozesse sind weitgehend etabliert und ermöglichen regelmäßige Updates.</label>
+              <label><input type="radio" name="q6" value="5">Vollständig etabliert – Kontinuierliche Auslieferung ermöglicht schnelle Reaktion auf Marktbedürfnisse.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>7. Es existiert eine Übersicht aller Produktanforderungen (Backlog).</p>
+            <div class="options">
+              <label><input type="radio" name="q7" value="1">Nicht vorhanden – Es existiert keine Übersicht.</label>
+              <label><input type="radio" name="q7" value="2">Eingeschränkt vorhanden – Unvollständige Übersicht, kaum aktualisiert.</label>
+              <label><input type="radio" name="q7" value="3">Teilweise etabliert – Unvollständige Übersicht wird gelegentlich aktualisiert.</label>
+              <label><input type="radio" name="q7" value="4">Weitgehend etabliert – Übersicht wird regelmäßig aktualisiert und deckt die meisten Anforderungen ab.</label>
+              <label><input type="radio" name="q7" value="5">Vollständig etabliert – Priorisierte Übersicht mit allen Anforderungen wird kontinuierlich aktualisiert.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>8. Produktveröffentlichungen erfolgen in kleineren, häufigen Zyklen, die an die Bedürfnisse des Projekts angepasst sind.</p>
+            <div class="options">
+              <label><input type="radio" name="q8" value="1">Nicht vorhanden – Veröffentlichungen erfolgen selten und in großen Abständen.</label>
+              <label><input type="radio" name="q8" value="2">Eingeschränkt vorhanden – Veröffentlichungen sind unregelmäßig; kleine Zyklen selten.</label>
+              <label><input type="radio" name="q8" value="3">Teilweise etabliert – Kleinere Veröffentlichungen finden gelegentlich statt.</label>
+              <label><input type="radio" name="q8" value="4">Weitgehend etabliert – Veröffentlichungen erfolgen regelmäßig in kleinen Zyklen.</label>
+              <label><input type="radio" name="q8" value="5">Vollständig etabliert – Veröffentlichungen erfolgen konsequent und bedarfsgerecht in kleinen Zyklen.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>9. Agile Schätzmethoden (z. B. Planning Poker) werden eingesetzt, um den Aufwand für Aufgaben möglichst verlässlich zu bewerten.</p>
+            <div class="options">
+              <label><input type="radio" name="q9" value="1">Nicht vorhanden – Keine agile Schätzung.</label>
+              <label><input type="radio" name="q9" value="2">Eingeschränkt vorhanden – Sporadischer Einsatz, ohne feste Integration.</label>
+              <label><input type="radio" name="q9" value="3">Teilweise etabliert – Regelmäßiger Einsatz, jedoch uneinheitlich.</label>
+              <label><input type="radio" name="q9" value="4">Weitgehend etabliert – Konsistent integriert mit verlässlichen Schätzungen.</label>
+              <label><input type="radio" name="q9" value="5">Vollständig etabliert – Vollständig eingebunden, kontinuierlich optimiert und zuverlässig.</label>
+            </div>
+          </div>
+          <div class="navigation-buttons">
+            <button type="button" onclick="goToStep(1)">Zurück</button>
+            <button type="button" class="next-btn" onclick="goToStep(3)" disabled>Weiter</button>
+          </div>
+        </div>
+
+        <!-- Schritt 3: Menschenzentrierung -->
+        <div class="wizard-step" data-step="3">
+          <h2 class="dimension">Menschenzentrierung</h2>
+          <!-- Fragen 10-13 -->
+          <div class="question">
+            <p>10. Unsere Teams haben klar definierte Verantwortungsbereiche und innerhalb davon Gestaltungsspielraum.</p>
+            <div class="options">
+              <label><input type="radio" name="q10" value="1">Nicht vorhanden – Keine klaren Verantwortlichkeiten, kein Spielraum.</label>
+              <label><input type="radio" name="q10" value="2">Eingeschränkt vorhanden – Teilweise definiert, sehr begrenzter Spielraum.</label>
+              <label><input type="radio" name="q10" value="3">Teilweise etabliert – Verantwortlichkeiten mit begrenztem Spielraum vorhanden.</label>
+              <label><input type="radio" name="q10" value="4">Weitgehend etabliert – Klare Verantwortlichkeiten und regelmäßig genutzter Spielraum.</label>
+              <label><input type="radio" name="q10" value="5">Vollständig etabliert – Feste Verantwortlichkeiten und eigenverantwortlich genutzter Spielraum.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>11. Mitarbeitende aus allen relevanten Fachrichtungen arbeiten eng zusammen, um gemeinsam Lösungen zu entwickeln.</p>
+            <div class="options">
+              <label><input type="radio" name="q11" value="1">Nicht vorhanden – Keine Zusammenarbeit – Disziplinen agieren isoliert.</label>
+              <label><input type="radio" name="q11" value="2">Eingeschränkt vorhanden – Sporadische, unstrukturierte Zusammenarbeit.</label>
+              <label><input type="radio" name="q11" value="3">Teilweise etabliert – Teilweise Zusammenarbeit, wichtige Disziplinen fehlen.</label>
+              <label><input type="radio" name="q11" value="4">Weitgehend etabliert – Regelmäßige Zusammenarbeit der meisten Disziplinen.</label>
+              <label><input type="radio" name="q11" value="5">Vollständig etabliert – Engagierte und konsequente Zusammenarbeit aller relevanten Fachrichtungen.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>12. Es findet direkter, persönlicher Austausch zwischen den Projektbeteiligten statt, um Information und Zusammenarbeit zu fördern.</p>
+            <div class="options">
+              <label><input type="radio" name="q12" value="1">Nie – Kein direkter, persönlicher Austausch.</label>
+              <label><input type="radio" name="q12" value="2">Selten – Sporadischer, unstrukturierter Austausch.</label>
+              <label><input type="radio" name="q12" value="3">Manchmal – Gelegentlicher Austausch ohne feste Regelmäßigkeit.</label>
+              <label><input type="radio" name="q12" value="4">Regelmäßig – Geplanter Austausch in regelmäßigen Abständen.</label>
+              <label><input type="radio" name="q12" value="5">Konsequent – Systematisch integrierter, persönlicher Austausch im Projektablauf.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>13. In unserem Team wählen die Mitglieder selbst, welche Aufgaben sie übernehmen, anstatt dass diese zugewiesen werden.</p>
+            <div class="options">
+              <label><input type="radio" name="q13" value="1">Nie – Keine freiwillige Aufgabenübernahme.</label>
+              <label><input type="radio" name="q13" value="2">Selten – Freiwillige Übernahme kommt nur selten vor.</label>
+              <label><input type="radio" name="q13" value="3">Manchmal – Aufgaben werden gelegentlich freiwillig gewählt.</label>
+              <label><input type="radio" name="q13" value="4">Regelmäßig – Freiwillige Aufgabenwahl erfolgt regelmäßig.</label>
+              <label><input type="radio" name="q13" value="5">Konsequent – Teammitglieder wählen konsequent eigenverantwortlich ihre Aufgaben statt Zuweisung.</label>
+            </div>
+          </div>
+          <div class="navigation-buttons">
+            <button type="button" onclick="goToStep(2)">Zurück</button>
+            <button type="button" class="next-btn" onclick="goToStep(4)" disabled>Weiter</button>
+          </div>
+        </div>
+
+        <!-- Schritt 4: Technische Exzellenz -->
+        <div class="wizard-step" data-step="4">
+          <h2 class="dimension">Technische Exzellenz</h2>
+          <!-- Fragen 14-20 -->
+          <div class="question">
+            <p>14. Wir halten uns an klar definierte Programmierstandards, die Qualität und Konsistenz unserer Softwareentwicklung sicherstellen.</p>
+            <div class="options">
+              <label><input type="radio" name="q14" value="1">Nie – Keine Standards vorhanden oder genutzt.</label>
+              <label><input type="radio" name="q14" value="2">Selten – Standards existieren, werden aber selten oder inkonsistent angewendet.</label>
+              <label><input type="radio" name="q14" value="3">Manchmal – Standards sind vorhanden, werden jedoch nur gelegentlich befolgt.</label>
+              <label><input type="radio" name="q14" value="4">Regelmäßig – Definierte Standards werden regelmäßig eingehalten.</label>
+              <label><input type="radio" name="q14" value="5">Konsequent – Programmierstandards sind fest verankert und werden konsequent befolgt.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>15. Der Fortschritt jeder Iteration wird erfasst und ist für alle Projektbeteiligten transparent einsehbar.</p>
+            <div class="options">
+              <label><input type="radio" name="q15" value="1">Nie – Fortschritt wird nicht erfasst.</label>
+              <label><input type="radio" name="q15" value="2">Selten – Fortschritt wird nur sporadisch erfasst und ist kaum einsehbar.</label>
+              <label><input type="radio" name="q15" value="3">Manchmal – Fortschritt wird gelegentlich erfasst, aber nur eingeschränkt sichtbar.</label>
+              <label><input type="radio" name="q15" value="4">Regelmäßig – Fortschritt wird regelmäßig erfasst und ist für Projektbeteiligte einsehbar.</label>
+              <label><input type="radio" name="q15" value="5">Konsequent – Fortschritt wird systematisch erfasst und ist jederzeit transparent einsehbar.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>16. Die Software wird auf technische Funktionalität getestet.</p>
+            <div class="options">
+              <label><input type="radio" name="q16" value="1">Nie – Es werden keine Tests durchgeführt.</label>
+              <label><input type="radio" name="q16" value="2">Selten – Tests erfolgen sporadisch, meist kurz vor Auslieferung.</label>
+              <label><input type="radio" name="q16" value="3">Manchmal – Tests finden gelegentlich während der Entwicklung statt.</label>
+              <label><input type="radio" name="q16" value="4">Regelmäßig – Tests sind Bestandteil des Entwicklungsprozesses, jedoch nicht konsequent umgesetzt.</label>
+              <label><input type="radio" name="q16" value="5">Konsequent – Tests sind in allen Entwicklungsphasen systematisch integriert.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>17. Anforderungen werden grundsätzlich aus Nutzersicht formuliert, z. B. als User Stories.</p>
+            <div class="options">
+              <label><input type="radio" name="q17" value="1">Nie – Anforderungen sind rein technisch, ohne Nutzerperspektive.</label>
+              <label><input type="radio" name="q17" value="2">Selten – Nutzerperspektive wird nur bei offensichtlichen Oberflächen berücksichtigt.</label>
+              <label><input type="radio" name="q17" value="3">Manchmal – Nutzerperspektive ist teilweise enthalten, aber uneinheitlich formuliert.</label>
+              <label><input type="radio" name="q17" value="4">Regelmäßig – Anforderungen werden überwiegend aus Nutzersicht beschrieben.</label>
+              <label><input type="radio" name="q17" value="5">Konsequent – Anforderungen werden systematisch aus der Nutzerperspektive formuliert.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>18. Die Erstellung der Projektdokumentation richtet sich nach den derzeitigen Anforderungen.</p>
+            <div class="options">
+              <label><input type="radio" name="q18" value="1">Nicht vorhanden – Keine strukturierte oder nutzbare Dokumentation.</label>
+              <label><input type="radio" name="q18" value="2">Eingeschränkt vorhanden – Erstellte Doku wird kaum gepflegt und ist oft überladen.</label>
+              <label><input type="radio" name="q18" value="3">Teilweise etabliert – Dokumentation erfolgt unregelmäßig, ohne Konzept zur Pflege.</label>
+              <label><input type="radio" name="q18" value="4">Weitgehend etabliert – Doku ist meistens aktuell, orientiert sich aber selten am Bedarf.</label>
+              <label><input type="radio" name="q18" value="5">Vollständig etabliert – Doku wird konsequent aktualisiert und ist auf das Wesentliche fokussiert.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>19. Die betroffenen Mitarbeitenden stimmen sich in kurzen Statusbesprechungen ab.</p>
+            <div class="options">
+              <label><input type="radio" name="q19" value="1">Nie – Es finden keine regelmäßigen Statusbesprechungen statt.</label>
+              <label><input type="radio" name="q19" value="2">Selten – Besprechungen finden selten und mit unregelmäßiger Teilnahme statt.</label>
+              <label><input type="radio" name="q19" value="3">Manchmal – Statusbesprechungen erfolgen unstrukturiert mit unvollständiger Teilnahme.</label>
+              <label><input type="radio" name="q19" value="4">Regelmäßig – Tägliche Statusbesprechungen sind etabliert, erreichen aber nicht stets alle Beteiligten.</label>
+              <label><input type="radio" name="q19" value="5">Konsequent – Tägliche kurze Besprechungen mit Teilnahme aller betroffenen Mitarbeiter.</label>
+            </div>
+          </div>
+          <div class="question">
+            <p>20. In Teilen der Entwicklung findet Pair Programming statt, um den Wissenstransfer zu fördern.</p>
+            <div class="options">
+              <label><input type="radio" name="q20" value="1">Nie – Entwickler arbeiten ausschließlich einzeln.</label>
+              <label><input type="radio" name="q20" value="2">Selten – Pair Programming wird nur in Ausnahmefällen eingesetzt.</label>
+              <label><input type="radio" name="q20" value="3">Manchmal – Pair Programming erfolgt situativ, zum Beispiel zur Einarbeitung.</label>
+              <label><input type="radio" name="q20" value="4">Regelmäßig – Pair Programming ist etabliert und gezielt eingesetzt.</label>
+              <label><input type="radio" name="q20" value="5">Konsequent – Pair Programming wird systematisch praktiziert.</label>
+            </div>
+          </div>
+          <div class="navigation-buttons">
+            <button type="button" onclick="goToStep(3)">Zurück</button>
+            <button
+              type="button"
+              class="next-btn"
+              onclick="calculateAndShowResults()"
+              disabled
+            >
+              Ergebnisse anzeigen
+            </button>
+          </div>
+        </div>
+
+        <!-- Schritt 5: Ergebnisse (eigene Seite) -->
+        <div class="wizard-step" data-step="5">
+          <h2 class="dimension">Ihre Ergebnisse</h2>
+          <!-- Übersicht der Reifegradstufen mit Arrowchart (ohne Farbkodierung) -->
+          <div id="results"></div>
+          <div id="arrowChart" class="arrow-chart"></div>
+          <!-- Ergebnis-Cards in einem übersichtlichen Layout -->
+          <div class="results-container">
+            <div class="result-card" id="currentMaturityDescription">
+              <!-- Dynamischer Inhalt: Bedeutung der aktuellen Reifegradstufe -->
+            </div>
+            <div class="result-card" id="nextMaturitySection">
+              <!-- Dynamischer Inhalt: Empfehlungen zur nächsten Stufe inkl. klappbarer Handlungsempfehlungen -->
+            </div>
+          </div>
+          <!-- Trenner mit Abstand -->
+          <hr style="margin: 40px 0" />
+          <!-- Überschrift für Dimensionsbereich -->
+          <h3>Aufteilung nach Dimensionen</h3>
+          <!-- Dimension-Kommentarbox -->
+          <div id="dimensionCommentary">
+            <p>
+              Die folgende Übersicht zeigt den Erfüllungsgrad in den vier zentralen Dimensionen
+              Ihres agilen Projektmanagements:
+              <strong>Kundenfokussierte Anpassungsfähigkeit</strong> misst, wie gut Sie auf
+              Kundenfeedback reagieren;
+              <strong>Produktverbesserung</strong> bewertet Ihre Fähigkeit, das Produkt kontinuierlich
+              zu optimieren;
+              <strong>Menschenzentrierung</strong> zeigt, wie effektiv Ihr Team zusammenarbeitet;
+              und <strong>Technische Exzellenz</strong> beurteilt, wie konsequent technische
+              Best Practices umgesetzt werden.
+              Nutzen Sie diese Übersicht, um gezielt Bereiche zu identifizieren, in denen noch
+              Verbesserungspotenzial besteht.
+            </p>
+          </div>
+          <!-- Chart und Dimensionseinstufungen -->
+          <div id="chartContainer">
+            <canvas id="radarChart"></canvas>
+          </div>
+          <div style="margin-top: 30px"></div>
+          <div id="dimensionStatus"></div>
+
+          <!-- Neuer Abschnitt: Disclaimer und PDF-Download -->
+          <div
+            id="pdfSection"
+            style="
+              margin-top: 30px;
+              padding: 20px;
+              background: #f2f2f2;
+              border: 1px solid #ddd;
+              border-radius: 8px;
+            "
+          >
+            <div class="disclaimer" style="margin-bottom: 20px">
+              <p
+                style="
+                  font-size: 0.95rem;
+                  line-height: 1.5;
+                  color: #555;
+                "
+              >
+                <strong>Hinweis</strong>
+                <br />
+                Agilität ist weniger ein starres Regelwerk als vielmehr eine Haltung, die den Mut zu
+                fortlaufendem Lernen und Anpassen fördert. Oder, um das Agile Manifest zu zitieren:
+                <em>„We are uncovering better ways of developing software by doing it and helping others do it.”</em>
+                <br /><br />
+                Gleichzeitig müssen erfolgreiche Projekte nicht immer streng nach agilen Methoden
+                ablaufen. Wo bewährte Prozesse bereits reibungslos funktionieren, besteht kein
+                dringender Änderungsbedarf. Agilität versteht sich vielmehr als hilfreiche Leitlinie,
+                die bei Bedarf Orientierung gibt – nicht als unumstößliches Dogma.
+              </p>
+            </div>
+            <div class="pdf-download">
+              <p
+                style="
+                  font-size: 0.95rem;
+                  line-height: 1.5;
+                  color: #555;
+                  margin-bottom: 15px;
+                "
+              >
+                <strong>PDF-Bericht</strong>
+                <br />
+                Im Folgenden haben Sie die Möglichkeit, Ihre aktuellen Ergebnisse als kompakten
+                PDF‑Bericht herunterzuladen. So bleiben alle Erkenntnisse übersichtlich dokumentiert
+                und lassen sich bequem mit Ihrem Team oder anderen Stakeholdern teilen.
+              </p>
+              <button type="button" class="submit-button" onclick="generatePDF()">
+                PDF herunterladen
+              </button>
+            </div>
+          </div>
+
+          <!-- Navigation auf Ergebnisseite -->
+          <div class="navigation-buttons">
+            <button type="button" onclick="goToStep(4)">Zurück</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript: Funktionen, Navigation, Berechnungen, PDF-Export -->
+  <script>
+    // Globale Variablen
+    var radarChart;
+    var maturityAchieved;
+    var nextLevel;
+    var dimensionResults;
+    var levelStatus;
+    var userAnswers = {};
+    let currentStep = 1;
+
+    // Beschreibungen der Reifegradstufen
+    const maturityDescriptions = {
+      "Initial":
+        "Die Reifegradstufe 'Initial' steht für das niedrigste Niveau der agilen Reife. Es gibt keinen klar definierten Prozess für die agile Entwicklung, und der Erfolg hängt ausschließlich von den individuellen Fähigkeiten der Beteiligten ab. Standardisierte Methoden fehlen, und Praktiken werden ad-hoc angewendet, was zu unvorhersehbaren Ergebnissen führt.",
+      "Kollaborativ":
+        "Die Reifegradstufe 'Kollaborativ' steht für ein fortgeschrittenes Niveau der agilen Reife. Auf dieser Stufe wird die Kommunikation und Zusammenarbeit zwischen allen Stakeholdern aktiv gefördert. Teams arbeiten eng zusammen, teilen Wissen und unterstützen sich gegenseitig, um gemeinsame Ziele effizient zu erreichen.",
+      "Evolutionär":
+        "Die Reifegradstufe 'Evolutionär' beschreibt ein Niveau, bei dem frühe und kontinuierliche Softwarelieferung im Mittelpunkt steht. Teams arbeiten in kleinen, iterativen Schritten und veröffentlichen regelmäßig, was kontinuierliches Feedback und stetige Produktverbesserung ermöglicht.",
+      "Effektiv":
+        "Die Reifegradstufe 'Effektiv' zielt darauf ab, die Effizienz des Entwicklungsprozesses zu steigern, indem Praktiken eingeführt werden, die zu hochwertiger, funktionierender Software führen. Dies bereitet den Prozess darauf vor, flexibel auf Veränderungen zu reagieren.",
+      "Adaptiv":
+        "Die Reifegradstufe 'Adaptiv' repräsentiert das höchste Niveau der agilen Reife. Hier ist die Fähigkeit, agil auf Veränderungen zu reagieren, vollständig verankert. Mehrere Feedback-Ebenen werden genutzt, um Prozesse kontinuierlich anzupassen und zu verbessern."
+    };
+
+    // Mapping der Kriterien (Titel und kurze Beschreibung)
+    const criteriaMapping = {
+      1: { title: "Prozess reflektieren", description: "Reflektieren Sie in definierten Abständen den Projektablauf." },
+      2: { title: "Evolutionäre Anforderungen", description: "Aktualisieren Sie Anforderungen iterativ basierend auf neuen Erkenntnissen." },
+      3: { title: "Durch Kundenfeedback geleitete Entwicklungsphasen", description: "Integrieren Sie Kundenfeedback systematisch in Ihre Entwicklungsphasen." },
+      4: { title: "Kunde ist unmittelbar erreichbar", description: "Stellen Sie eine direkte, kontinuierliche Erreichbarkeit des Kunden sicher." },
+      5: { title: "Kollaborative Planung", description: "Planen Sie gemeinsam mit allen Stakeholdern und dem Team." },
+      6: { title: "Continuous Delivery", description: "Implementieren Sie automatisierte Prozesse für häufige Releases." },
+      7: { title: "Backlog-Pflege", description: "Halten Sie Ihren Product Backlog aktuell und priorisiert." },
+      8: { title: "Kleinere und häufige Veröffentlichungen", description: "Liefern Sie funktionsfähige Software in kurzen, regelmäßigen Zyklen." },
+      9: { title: "Agile Projektschätzung", description: "Schätzen Sie den Aufwand kollaborativ, z.B. mittels Planning Poker." },
+      10: { title: "Befähigte Teams", description: "Stärken Sie die Selbstorganisation und das Empowerment Ihrer Teams." },
+      11: { title: "Kollaborative Teams", description: "Fördern Sie den Wissensaustausch und die Zusammenarbeit im Team." },
+      12: { title: "Persönliche Kommunikation", description: "Setzen Sie auf direkte, persönliche Abstimmung." },
+      13: { title: "Freiwillige Aufgabenübernahme", description: "Ermöglichen Sie dem Team, Aufgaben eigenverantwortlich zu wählen." },
+      14: { title: "Programmierstandards", description: "Definieren Sie klare Coding-Standards zur Verbesserung der Codequalität." },
+      15: { title: "Fortschritt der Iterationen verfolgen", description: "Nutzen Sie transparente Tools, um den Projektfortschritt darzustellen." },
+      16: { title: "Integrierte Testpraktiken", description: "Integrieren Sie automatisierte Tests in den Entwicklungsprozess." },
+      17: { title: "User Stories", description: "Formulieren Sie Anforderungen als prägnante User Stories." },
+      18: { title: "Agile Dokumentation", description: "Dokumentieren Sie nur das Wesentliche, um Flexibilität zu bewahren." },
+      19: { title: "Tägliche Fortschrittsbesprechungen", description: "Führen Sie regelmäßige kurze Meetings zur Abstimmung durch." },
+      20: { title: "Pair Programming", description: "Nutzen Sie Pair Programming, um Codequalität und Wissensaustausch zu fördern." }
+    };
+
+    // Detaillierte, wissenschaftlich fundierte Handlungsempfehlungen
+    const detailedRecommendations = {
+      1: {
+        title: "Prozess reflektieren",
+        measure:
+          "Um Prozesse gezielt zu reflektieren, sollten regelmäßige Rückblicke genutzt werden, um sowohl positive als auch herausfordernde Aspekte der Zusammenarbeit zu analysieren. Dabei ist es wichtig, nicht nur vergangene Ereignisse zu beschreiben, sondern auch deren Ursachen zu hinterfragen und mögliche Verbesserungen abzuleiten. Eine strukturierte Reflexion sollte verschiedene Ebenen umfassen – von der Wahrnehmung über die Analyse bis hin zur Ableitung konkreter Maßnahmen, die dokumentiert und überprüft werden, um nachhaltige Verbesserungen zu erzielen.<br>Um die Beteiligung aller Teammitglieder zu fördern und die Reflexion effektiver zu gestalten, kann es hilfreich sein, kreative und interaktive Methoden einzusetzen. Studien zeigen, dass traditionelle Rückblicke oft monoton werden, von wenigen Stimmen dominiert sind oder sich auf Kritik statt auf Lösungen konzentrieren. Eine spielerische oder visuelle Gestaltung kann helfen, diese Herausforderungen zu überwinden und den Fokus auf konstruktive Verbesserungen zu lenken.",
+        source:
+          "<br>Andriyani, Y., Hoda, R., & Amor, R. (2017). Reflection in agile retrospectives. In H. Baumeister, H. Lichter, & M. Riebisch (Eds.), Agile Processes in Software Engineering and Extreme Programming – XP 2017 (pp. 3–19). Springer. <br><a href='https://doi.org/10.1007/978-3-319-57633-6_1' target='_blank'>https://doi.org/10.1007/978-3-319-57633-6_1</a><br><br>Przybyłek, A., Albecka, M., Springer, O., & Kowalski, W. (2022). Game-based Sprint retrospectives: Multiple action research. Empirical Software Engineering, 27(1), Artikelnummer 1. <br><a href='https://doi.org/10.1007/s10664-021-10043-z' target='_blank'>https://doi.org/10.1007/s10664-021-10043-z</a>"
+      },
+      2: {
+        title: "Evolutionäre Anforderungen",
+        measure:
+          "In agilen Projekten ist es zentral, Anforderungen nicht als fix, sondern als veränderbar zu verstehen. Neue Erkenntnisse, Kundenfeedback oder Marktveränderungen sollen zeitnah berücksichtigt und in Form aktualisierter Anforderungen aufgenommen werden. Dabei erfolgt die Detaillierung schrittweise und genau dann, wenn sie für die Umsetzung relevant wird. Dieses Vorgehen ermöglicht es, früh formulierte Annahmen zu hinterfragen und gegebenenfalls effizient anzupassen, bevor unnötiger Aufwand entsteht. Teams sollten daher Strukturen etablieren, um regelmäßig zu prüfen, ob aktuelle Anforderungen noch dem Bedarf entsprechen – und falls nötig, gezielt Änderungen vorzunehmen.",
+        source: "Bergsmann, J. (2023). Requirements Engineering für die agile Softwareentwicklung (3. Aufl.). dpunkt.verlag."
+      },
+      3: {
+        title: "Durch Kundenfeedback geleitete Entwicklungsphasen",
+        measure:
+          "Kundenfeedback sollte frühzeitig und strukturiert in den Produktentwicklungsprozess eingebunden werden, um Anforderungen markt- und nutzerorientiert abzuleiten. Dafür eignen sich kompakte und digitale Befragungsmethoden, die gezielt auf konkrete Fragestellungen oder Produktmerkmale ausgerichtet sind. Die Ergebnisse sollten systematisch ausgewertet und als Input für die Planung und Priorisierung weiterer Entwicklungsschritte genutzt werden. Um auf sich verändernde Kundenbedürfnisse reagieren zu können, empfiehlt sich ein regelmäßiger Einsatz solcher Feedback-Schleifen während der gesamten Entwicklungsdauer. Dies ermöglicht eine zielgerichtete Weiterentwicklung und erhöht die Wahrscheinlichkeit, dass das Endprodukt den Erwartungen der Nutzenden entspricht.",
+        source:
+          "Humpert, L., Röhm, B., Anacker, H., Dumitrescu, R., & Anderl, R. (2022). Method for direct end customer integration into the agile product development. Procedia CIRP, 109, 215–220. <br><a href='https://doi.org/10.1016/j.procir.2022.05.239' target='_blank'>https://doi.org/10.1016/j.procir.2022.05.239</a>"
+      },
+      4: {
+        title: "Kunde ist unmittelbar erreichbar",
+        measure:
+          "Kunden sollten im Entwicklungsprozess zur Verfügung stehen, um zeitnahe Rückmeldungen und Entscheidungen zu ermöglichen. Fehlt diese Erreichbarkeit, entstehen Verzögerungen bei der Anforderungsklärung, und das Team trifft häufig falsche Annahmen, was zu Missverständnissen führt. Deshalb sollte der Kunde frühzeitig über die Vorteile agiler Vorgehensweisen aufgeklärt werden, damit er seine Rolle als aktiver Partner im Entwicklungsprozess versteht. Kann der Kunde nicht durchgängig vor Ort sein, ist der Einsatz eines kompetenten Zwischenvertreters (z. B. Story Owner oder Customer Proxy) empfehlenswert, um den Informationsfluss zu gewährleisten. Optimal unterstützt ein On-Site-Customer den direkten Austausch und ermöglicht schnelle Entscheidungen sowie zeitnahe Rückmeldungen, was die Effizienz des Projekts erheblich steigert.",
+        source:
+          "Hoda, R., Noble, J., & Marshall, S. (2011). The impact of inadequate customer collaboration on self-organizing Agile teams. Information and Software Technology, 53(5), 521–534. <br><a href='https://doi.org/10.1016/j.infsof.2010.10.009' target='_blank'>https://doi.org/10.1016/j.infsof.2010.10.009</a>"
+      },
+      5: {
+        title: "Kollaborative Planung",
+        measure:
+          "Zu Beginn eines Projekts sollte mit allen Beteiligten ein gemeinsames Treffen stattfinden, etwa in Form eines Workshops, um die Grundlage für eine erfolgreiche Zusammenarbeit zu schaffen. In einem solchen Workshop können Stakeholder ihre Perspektiven einbringen, gemeinsame Ziele formulieren und erste Anforderungen entwickeln. Die strukturierte Moderation unterstützt dabei, unterschiedliche Sichtweisen zu bündeln und Missverständnisse frühzeitig auszuräumen. Gleichzeitig ermöglicht das direkte Feedback aller Teilnehmenden eine hohe Akzeptanz der erarbeiteten Inhalte. Workshops bieten somit eine effektive Möglichkeit, Planung und Abstimmung frühzeitig und kollaborativ zu gestalten.",
+        source: "Unterauer, M. (2019). Workshops im Requirements Engineering (2. Aufl.). dpunkt.verlag."
+      },
+      6: {
+        title: "Continuous Delivery",
+        measure:
+          "Um eine kontinuierliche Auslieferung (Continuous Delivery) zu ermöglichen, sollten Teams frühzeitig auf eine modulare Systemarchitektur und automatisierte Testprozesse setzen. Dadurch wird sichergestellt, dass Produktinkremente jederzeit in einem auslieferbaren Zustand sind. Kurze Feedback-Zyklen und stabile Builds steigern die Reaktionsfähigkeit auf Marktbedürfnisse erheblich. Außerdem sollten Verantwortlichkeiten zur Überwachung und Behebung von Build- und Testfehlern klar definiert sein, um Verzögerungen im Entwicklungsfluss zu vermeiden.",
+        source:
+          "Laukkanen, E., Itkonen, J., & Lassenius, C. (2017). Problems, causes and solutions when adopting continuous delivery - A systematic literature review. Information and Software Technology, 82, 55–79. <br><a href='https://doi.org/10.1016/j.infsof.2016.10.001' target='_blank'>https://doi.org/10.1016/j.infsof.2016.10.001</a>"
+      },
+      7: {
+        title: "Backlog-Pflege",
+        measure:
+          "Ein Backlog dient dazu, alle bekannten Anforderungen an ein Produkt zu sammeln, zu beschreiben und in eine sinnvolle Reihenfolge zu bringen. Es hilft dem Team dabei, den Überblick zu behalten und sich auf die aus Sicht der Kunden wichtigsten Themen zu konzentrieren. Die Übersicht sollte zentral gepflegt werden, zum Beispiel in einem Tool wie Jira, damit alle Beteiligten jederzeit auf denselben Informationsstand zugreifen können. <br> Einträge im Backlog sollten klar beschrieben und mit einem nachvollziehbaren Status versehen sein. So wird sichtbar, welche Anforderungen in Planung, in Bearbeitung oder bereits umgesetzt sind. Da sich Produkte und Anforderungen im Laufe eines Projekts weiterentwickeln, sollte auch das Backlog regelmäßig angepasst werden. Es bietet damit nicht nur eine Grundlage für die Planung, sondern auch einen Rahmen, um auf neue Erkenntnisse und veränderte Prioritäten flexibel reagieren zu können. Die Übersicht bleibt dabei nie endgültig, sondern wird mit jeder Iteration ein Stück klarer und vollständiger.",
+        source:
+          "Highsmith, J. A. (2004). Agile project management: Creating innovative products. Boston: Addison-Wesley. <br><a href='https://learning.oreilly.com/library/view/-/0321219775/' target='_blank'>https://learning.oreilly.com/library/view/-/0321219775/</a>"
+      },
+      8: {
+        title: "Kleinere und häufige Veröffentlichungen",
+        measure:
+          "Um frühzeitig Nutzen zu stiften und flexibel auf neue Anforderungen reagieren zu können, empfiehlt es sich, Produktveröffentlichungen in kurzen, regelmäßigen Abständen einzuplanen. In agilen Projekten sollte nach jeder Iteration ein nutzbares Produktinkrement vorliegen, das potenziell veröffentlicht werden kann. Die Iterationsdauer spielt dabei eine zentrale Rolle: Sie sollte nicht kürzer als eine Woche und nicht länger als vier Wochen sein. Zwei Wochen gelten in der Praxis als besonders sinnvoll, da sie ausreichend Zeit für Entwicklung und Tests bieten, gleichzeitig aber schnell genug Feedback ermöglichen. Durch diese kleinen und häufigen Releases kann Komplexität reduziert, die Qualität verbessert und der Projektverlauf eng an den tatsächlichen Bedarf angepasst werden.",
+        source:
+          "Cline, A. (2015). Agile development in the real world. Apress. <br><a href='https://doi.org/10.1007/978-1-4842-1679-8' target='_blank'>https://doi.org/10.1007/978-1-4842-1679-8</a>"
+      },
+      9: {
+        title: "Agile Projektschätzung",
+        measure:
+          "Agile Schätzmethoden sollten eingesetzt werden, um den Aufwand für Aufgaben systematisch und im Team zu bewerten. Solche Methoden fördern den Wissensaustausch, decken unterschiedliche Perspektiven auf und schaffen ein gemeinsames Verständnis für die Aufgaben. Dadurch entstehen realistischere und verlässlichere Schätzungen. Eine empirische Studie zeigt am Beispiel von Planning Poker, dass Gruppenschätzungen nach kurzer Diskussion konsistenter und weniger optimistisch waren als rein individuelle Einschätzungen. Diese Reduktion von Optimismus trug direkt zu einer höheren Schätzgenauigkeit bei, da typische Einzelverzerrungen ausgeglichen wurden. Planning Poker ist eine kollaborative Methode, bei der Teammitglieder zunächst unabhängig schätzen, ihre Einschätzungen gleichzeitig offenlegen und bei Abweichungen gezielt diskutieren. Die zentrale Qualität dieser Methode liegt in der gemeinsamen Reflexion, der Iteration und der Transparenz. Diese Eigenschaften teilen auch andere agile Schätzverfahren, weshalb sich der Einsatz einer solchen Methode im agilen Projektkontext ausdrücklich empfiehlt.",
+        source:
+          "Moløkken-Østvold, K., & Haugen, N. C. (2007). Combining estimates with planning poker - An empirical study. In Proceedings of the 2007 Australian Software Engineering Conference (ASWEC’07) (pp. 349–358). IEEE. <br><a href='https://doi.org/10.1109/ASWEC.2007.15' target='_blank'>https://doi.org/10.1109/ASWEC.2007.15</a>"
+      },
+      10: {
+        title: "Befähigte Teams",
+        measure:
+          "Um Teams zu befähigen und ihre Motivation zu stärken, sollten sie möglichst eigenverantwortlich arbeiten können. Das bedeutet, dass sie ihre Aufgabenverteilung, Zielsetzung und Zusammenarbeit im Rahmen ihres Verantwortungsbereichs selbst gestalten dürfen. Wichtig ist dabei, dass Rollen und Zuständigkeiten klar definiert sind, zum Beispiel mit einer RACI-Matrix. So lassen sich Missverständnisse und Konflikte vermeiden. Eine Teamgröße von fünf bis zehn Personen ist sinnvoll, um effiziente Kommunikation und gegenseitige Unterstützung sicherzustellen.",
+        source:
+          "Preußig, J. (2020). Agiles Projektmanagement: Agilität und Scrum im klassischen Projektumfeld (2. Aufl.). Haufe-Lexware GmbH & Co. KG. ISBN 978-3-648-13776-5"
+      },
+      11: {
+        title: "Kollaborative Teams",
+        measure:
+          "Um kollaborative Teams erfolgreich zu gestalten, sollten Mitarbeiter aus allen relevanten Fachrichtungen nicht nur zusammenarbeiten, sondern gezielt so zusammengestellt werden, dass sich ihre Kompetenzen, Erfahrungen und Persönlichkeiten sinnvoll ergänzen. Eine ausgewogene Teamzusammensetzung fördert effektive Kommunikation, gemeinsame Zielverfolgung und schnelle Anpassungsfähigkeit an Veränderungen. Besonders wichtig ist, dass jedes Teammitglied sowohl fachlich als auch zwischenmenschlich in der Lage ist, Verantwortung zu übernehmen und aktiv zum Teamerfolg beizutragen. Unterschiedliche Perspektiven und Hintergründe bereichern den Lösungsprozess und steigern die Innovationskraft. Entscheidend ist daher nicht nur, wer im Team ist, sondern wie gut die Kombination der Mitglieder auf die Projektanforderungen abgestimmt ist.",
+        source:
+          "Zainal, D. A. P., Razali, R., & Mansor, Z. (2020). Team formation for agile software development: A review. International Journal on Advanced Science, Engineering and Information Technology, 10(2), 555–561. <br><a href='https://doi.org/10.18517/ijaseit.10.2.10191' target='_blank'>https://doi.org/10.18517/ijaseit.10.2.10191</a>"
+      },
+      12: {
+        title: "Persönliche Kommunikation",
+        measure:
+          "Regelmäßiger persönlicher Austausch ist entscheidend für eine gute Zusammenarbeit im Team. Informationen lassen sich im direkten Gespräch schneller und klarer vermitteln als über E-Mails oder Dokumente. Persönliche Kommunikation stärkt das gegenseitige Verständnis und hilft, Missverständnisse früh zu erkennen und zu vermeiden. Es lohnt sich daher, gezielt Räume und Gelegenheiten für informellen und fachlichen Austausch zu schaffen. So entsteht eine gemeinsame Wissensbasis, auf die alle im Team zugreifen können.",
+        source:
+          "Preußig, J. (2020). Agiles Projektmanagement: Agilität und Scrum im klassischen Projektumfeld (2. Aufl.). Haufe-Lexware GmbH & Co. KG. ISBN 978-3-648-13776-5"
+      },
+      13: {
+        title: "Freiwillige Aufgabenübernahme",
+        measure:
+          "Freiwillige Aufgabenübernahme stärkt die Motivation im Team und fördert die Eigenverantwortung. Wenn Teammitglieder selbst entscheiden können, welche Aufgaben sie übernehmen, erleben sie mehr Autonomie und bringen sich engagierter ein. Gerade in agilen Umgebungen zeigt sich, dass Aufgaben nicht zugewiesen, sondern aktiv übernommen werden. Diese Freiheit wirkt sich positiv auf die Zusammenarbeit und das Ergebnis aus. Es lohnt sich daher, Strukturen zu schaffen, die Wahlmöglichkeiten bewusst ermöglichen und unterstützen.",
+        source:
+          "Preußig, J. (2020). Agiles Projektmanagement: Agilität und Scrum im klassischen Projektumfeld (2. Aufl.). Haufe-Lexware GmbH & Co. KG. ISBN 978-3-648-13776-5"
+      },
+      14: {
+        title: "Programmierstandards",
+        measure:
+          "Überprüfen Sie, ob im Team ein gemeinsames Verständnis darüber besteht, wie sauberer, verständlicher und wartbarer Code aussieht, und ob dieses Verständnis durch konkrete Programmierstandards gestützt wird. Entwickeln Sie gemeinsam verbindliche Regeln, zum Beispiel zu Namenskonventionen, zur Struktur von Code oder zur Verwendung technischer Frameworks. Halten Sie diese Standards im Arbeitsalltag präsent, etwa als Teil einer gepflegten Definition of Done oder in Form eines leicht zugänglichen Leitfadens. Wichtig ist, dass die Standards nicht nur dokumentiert, sondern regelmäßig im Team reflektiert und bei Bedarf angepasst werden.",
+        source:
+          "Alami, A., Krancher, O., & Paasivaara, M. (2022). The journey to technical excellence in agile software development. Information and Software Technology, 150, 106959. <br><a href='https://doi.org/10.1016/j.infsof.2022.106959' target='_blank'>https://doi.org/10.1016/j.infsof.2022.106959</a>"
+      },
+      15: {
+        title: "Fortschritt der Iterationen verfolgen",
+        measure:
+          "Um den Fortschritt von Iterationen effektiv zu verfolgen und für alle Projektbeteiligten transparent zu gestalten, empfiehlt sich der Einsatz von Informationsvisualisierungstechniken. Besonders bewährt haben sich Taskboards oder Burn-Down-Charts, die es Teams ermöglichen, auf einen Blick den aktuellen Stand, verbleibende Aufgaben sowie abgeschlossene Arbeit zu erkennen. Diese Darstellungen fördern nicht nur die Transparenz, sondern verbessern auch die Selbstorganisation des Teams und ermöglichen frühzeitige Reaktionen auf Abweichungen vom Plan. In der Praxis hat sich gezeigt, dass insbesondere physische Taskboards, die in Kategorien wie „Backlog“, „In Arbeit“ und „Erledigt“ gegliedert sind, von Teams als besonders hilfreich empfunden werden. Auch digitale Dashboards, etwa in verteilten Teams, können zur Fortschrittsverfolgung genutzt werden, sofern sie leicht zugänglich, aktuell und in den Arbeitsalltag integriert sind.",
+        source:
+          "Paredes, J., Anslow, C., & Maurer, F. (2014). Information visualization for agile software development teams. In 2014 Second IEEE Working Conference on Software Visualization (pp. 157–166). IEEE. <br><a href='https://doi.org/10.1109/VISSOFT.2014.32' target='_blank'>https://doi.org/10.1109/VISSOFT.2014.32</a>"
+      },
+      16: {
+        title: "Integrierte Testpraktiken",
+        measure:
+          "Im Rahmen agiler Entwicklungsprozesse wird empfohlen, integrierte Testpraktiken wie Test-Driven Development (TDD) und Behavior-Driven Development (BDD) einzusetzen. Beide Methoden ermöglichen eine kontinuierliche Prüfung der technischen Funktionalität bereits während der Entwicklung. Während TDD durch testgetriebene Implementierung die Fehlerprävention fördert, stärkt BDD zusätzlich die Kommunikation mit Stakeholdern.",
+        source:
+          "Abushama, H. M., Alassam, H. A., & Elhaj, F. A. (2020). The effect of Test-Driven Development and Behavior-Driven Development on Project Success Factors: A Systematic Literature Review Based Study. 2020 ICCCEEE.<br><a href='https://doi.org/10.1109/ICCCEEE49695.2021.9429593' target='_blank'>https://doi.org/10.1109/ICCCEEE49695.2021.9429593</a>"
+      },
+      17: {
+        title: "User Stories",
+        measure:
+          "Anforderungen sollten grundsätzlich in Form von User Stories aus Sicht des Nutzers formuliert werden. Dabei ist entscheidend, dass jede User Story eine konkrete Nutzerrolle, ein Ziel und den damit verbundenen Nutzen beschreibt. Als Orientierung sollte die INVEST-Regel dienen: User Stories sollen unabhängig (Independent), verhandelbar (Negotiable), wertvoll (Valuable), schätzbar (Estimable), klein (Small) und testbar (Testable) sein. Entwickler sollten darin geschult werden, technische Aufgaben in klar verständliche, nutzenorientierte Anforderungen zu übersetzen. So wird sichergestellt, dass der tatsächliche Kundennutzen im Mittelpunkt steht und nicht nur technische Umsetzung.",
+        source:
+          "Pokharel, P., & Vaidya, P. (2020). A Study of User Story in Practice. 2020 International Conference on Data Analytics for Business and Industry: Way Towards a Sustainable Economy (ICDABI). IEEE. <br><a href='https://doi.org/10.1109/ICDABI51230.2020.9325670' target='_blank'>https://doi.org/10.1109/ICDABI51230.2020.9325670</a>"
+      },
+      18: {
+        title: "Agile Dokumentation",
+        measure:
+          "Die agile Projektdokumentation sollte sich flexibel an den jeweiligen Projektstand anpassen. In frühen Phasen genügt eine schlanke, aber zweckmäßige Dokumentation, die eine klare Kommunikation im Team und mit anderen Beteiligten ermöglicht. Mit zunehmender Reife des Vorhabens darf auch der Umfang der Dokumentation wachsen, wobei der Fokus stets auf Verständlichkeit und Relevanz für verschiedene Stakeholder liegen sollte. Besonders wertvoll ist eine Dokumentation, die zentrale Architekturentscheidungen sowie verworfene Lösungswege nachvollziehbar darstellt. Der agile Grundsatz, funktionierende Software über umfassende Dokumentation zu stellen, richtet sich dabei vor allem gegen umfangreiche Planungsunterlagen, die erstellt werden, bevor ein echtes Verständnis des Problems oder erste Erfahrungen mit der Umsetzung vorliegen.",
+        source:
+          "Selic, B. (2009). Agile documentation, anyone? IEEE Software, 26(6), 11–13. <br><a href='https://doi.org/10.1109/MS.2009.167' target='_blank'>https://doi.org/10.1109/MS.2009.167</a>"
+      },
+      19: {
+        title: "Tägliche Fortschrittsbesprechungen",
+        measure:
+          "Tägliche Besprechungen im agilen Projektmanagement sollen dem offenen Informationsaustausch im Team dienen, nicht dem reinen Bericht an einzelne Personen. Wenn sich dennoch eine Berichtstruktur entwickelt, kann ein regelmäßiger Wechsel der Moderation dabei helfen, den Austausch auf Augenhöhe zu fördern. Für eine effektive Durchführung sollten Anzahl der Teilnehmenden, Länge und Tageszeit der Besprechung so gewählt werden, dass sie den Arbeitsfluss möglichst wenig stören. Bei Präsenzterminen ist ein geeigneter Raum wichtig, um Konzentration und Beteiligung zu unterstützen. Die Visualisierung aktueller Aufgaben sowie kurze, stehende Besprechungen oder der Einsatz eines Timers können zusätzlich helfen, den Fokus zu halten.",
+        source:
+          "Stray, V. G., Lindsjørn, Y., & Sjøberg, D. I. K. (2013). Obstacles to efficient daily meetings in agile development projects: A case study. In 2013 ACM / IEEE International Symposium on Empirical Software Engineering and Measurement (pp. 95–104). IEEE. <br><a href='https://doi.org/10.1109/ESEM.2013.30' target='_blank'>https://doi.org/10.1109/ESEM.2013.30</a>"
+      },
+      20: {
+        title: "Pair Programming",
+        measure:
+          "Unternehmen sollten Pair Programming gezielt für hochkomplexe Projekte einsetzen, wo es nachweislich Entwicklungsaufwand reduziert, Fehlerraten senkt und den Wissenstransfer erhöht. Bei der Zusammenstellung von Programmier-Paaren sollte primär auf die Erfahrung der Entwickler geachtet werden - idealerweise sollten Entwickler mit Pair-Programming-Erfahrung zusammenarbeiten, um die Effizienz zu maximieren. Für Projekte mit Weiterbildungszielen eignen sich besonders Paare aus erfahrenen und unerfahrenen Entwicklern, die gegenseitig voneinander lernen können. Senior-Senior-Paare arbeiten zwar am schnellsten, müssen aber gegen ihre Personalkosten abgewogen werden.",
+        source:
+          "Sun, W., Marakas, G., & Aguirre-Urreta, M. (2016). The effectiveness of pair programming: Software professionals' perceptions. IEEE Software, 33(4), 72–79. <br><a href='https://doi.org/10.1109/MS.2015.106' target='_blank'>https://doi.org/10.1109/MS.2015.106</a>"
+      }
+    };
+
+    // Navigation & Scroll-Funktionen
+    function startAssessment() {
+      document.getElementById('startPage').style.display = 'none';
+      document.getElementById('assessmentWizard').style.display = 'block';
+      goToStep(1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToStep(step) {
+      const steps = document.querySelectorAll('.wizard-step');
+      steps.forEach((s) => s.classList.remove('active'));
+      const activeStep = document.querySelector('.wizard-step[data-step="' + step + '"]');
+      if (activeStep) {
+        activeStep.classList.add('active');
+        updateNextButton(step);
+        const radios = activeStep.querySelectorAll('input[type="radio"]');
+        radios.forEach((radio) => {
+          radio.addEventListener('change', function () {
+            updateNextButton(step);
+          });
+        });
+      }
+      updateStepProgress(step);
+      currentStep = step;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+
+    function updateStepProgress(step) {
+      const steps = document.querySelectorAll('#stepProgress .step');
+      const lines = document.querySelectorAll('#stepProgress .step-line');
+      steps.forEach((el, idx) => {
+        const stepNumber = idx + 1;
+        el.classList.remove('active', 'completed');
+        if (stepNumber < step) {
+          el.classList.add('completed');
+        } else if (stepNumber === step) {
+          el.classList.add('active');
+        }
+      });
+      lines.forEach((line, idx) => {
+        line.classList.remove('fill');
+        if (idx < step - 1) {
+          line.classList.add('fill');
+        }
+      });
+    }
+
+    function checkStepCompletion(step) {
+      const stepContainer = document.querySelector('.wizard-step[data-step="' + step + '"]');
+      const questions = stepContainer.querySelectorAll('.question');
+      for (let i = 0; i < questions.length; i++) {
+        if (!questions[i].querySelector('input[type="radio"]:checked')) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function updateNextButton(step) {
+      const stepContainer = document.querySelector('.wizard-step[data-step="' + step + '"]');
+      const nextButton = stepContainer.querySelector('.navigation-buttons button.next-btn');
+      if (nextButton) {
+        nextButton.disabled = !checkStepCompletion(step);
+      }
+    }
+
+    // Dimensionen & Maturity-Levels
+    const dimensions = {
+      'Kundenfokussierte Anpassungsfähigkeit': [1, 2, 3, 4],
+      'Produktverbesserung': [5, 6, 7, 8, 9],
+      'Menschenzentrierung': [10, 11, 12, 13],
+      'Technische Exzellenz': [14, 15, 16, 17, 18, 19, 20]
+    };
+    const maturityLevels = {
+      'Kollaborativ': [1, 3, 5, 11, 14],
+      'Evolutionär': [2, 6, 7, 15],
+      'Effektiv': [10, 12, 13, 16],
+      'Adaptiv': [4, 8, 9, 17, 18, 19, 20]
+    };
+
+    // Ergebnisse berechnen und Ergebnisse-Seite (Schritt 5) anzeigen
+    function calculateAndShowResults() {
+      const form = document.getElementById('assessmentForm');
+      const totalQuestions = 20;
+      let allAnswered = true;
+      dimensionResults = {};
+      levelStatus = {};
+      userAnswers = {};
+
+      for (let dimension in dimensions) {
+        dimensionResults[dimension] = { lowEndTotal: 0, highEndTotal: 0, count: dimensions[dimension].length };
+      }
+      for (let level in maturityLevels) {
+        levelStatus[level] = { lowEndTotal: 0, highEndTotal: 0, count: maturityLevels[level].length };
+      }
+
+      for (let i = 1; i <= totalQuestions; i++) {
+        let radios = form.elements['q' + i];
+        let value = 0;
+        for (let radio of radios) {
+          if (radio.checked) {
+            value = parseInt(radio.value);
+            break;
+          }
+        }
+        if (value === 0) {
+          allAnswered = false;
+          break;
+        }
+        userAnswers[i] = value;
+        let lowEnd = getLowEnd(value);
+        let highEnd = getHighEnd(value);
+        for (let dimension in dimensions) {
+          if (dimensions[dimension].includes(i)) {
+            dimensionResults[dimension].lowEndTotal += lowEnd;
+            dimensionResults[dimension].highEndTotal += highEnd;
+          }
+        }
+        for (let level in maturityLevels) {
+          if (maturityLevels[level].includes(i)) {
+            levelStatus[level].lowEndTotal += lowEnd;
+            levelStatus[level].highEndTotal += highEnd;
+          }
+        }
+      }
+
+      if (!allAnswered) {
+        goToStep(1);
+        alert('Bitte beantworten Sie alle 20 Fragen, bevor Sie fortfahren.');
+        return;
+      }
+
+      // Ergebnisse berechnen und Diagramm rendern
+      let labels = [],
+        data = [];
+      for (let dimension in dimensionResults) {
+        let lowEndAvg =
+          dimensionResults[dimension].lowEndTotal / dimensionResults[dimension].count;
+        let highEndAvg =
+          dimensionResults[dimension].highEndTotal / dimensionResults[dimension].count;
+        let fulfillment = (lowEndAvg + highEndAvg) / 2;
+        fulfillment = ((fulfillment - 7.5) * 100) / 85;
+        fulfillment = Math.max(0, Math.min(fulfillment, 100));
+        labels.push(dimension);
+        data.push(fulfillment);
+      }
+      renderChart(labels, data);
+
+      let levels = ['Kollaborativ', 'Evolutionär', 'Effektiv', 'Adaptiv'];
+      for (let level of levels) {
+        let lowEndAvg = levelStatus[level].lowEndTotal / levelStatus[level].count;
+        let highEndAvg = levelStatus[level].highEndTotal / levelStatus[level].count;
+        let fulfillment = (lowEndAvg + highEndAvg) / 2;
+        fulfillment = ((fulfillment - 7.5) * 100) / 85;
+        fulfillment = Math.max(0, Math.min(fulfillment, 100));
+        let status = getStatusText(fulfillment);
+        levelStatus[level].status = status;
+        levelStatus[level].fulfillment = fulfillment;
+      }
+
+      maturityAchieved = 'Initial';
+      for (let i = 0; i < levels.length; i++) {
+        let level = levels[i];
+        let allPrev = levels.slice(0, i + 1).every((lvl) => levelStatus[lvl].fulfillment >= 85);
+        if (allPrev) {
+          maturityAchieved = level;
+        } else {
+          break;
+        }
+      }
+      let allLevels = ['Initial', 'Kollaborativ', 'Evolutionär', 'Effektiv', 'Adaptiv'];
+      let currentLevelIndex = allLevels.indexOf(maturityAchieved);
+      nextLevel = allLevels[currentLevelIndex + 1];
+
+      // Ergebnisse (Arrowchart und Zusammenfassung)
+      let currentResultHTML =
+        "<div class='result neutral'>Aktueller Reifegrad: <strong>" +
+        maturityAchieved +
+        "</strong></div>";
+      if (nextLevel) {
+        currentResultHTML +=
+          "<div class='result neutral'>Nächster angestrebter Reifegrad: <strong>" +
+          nextLevel +
+          "</strong></div>";
+      }
+      document.getElementById('results').innerHTML = currentResultHTML;
+
+      const arrowChartDiv = document.getElementById('arrowChart');
+      arrowChartDiv.innerHTML = '';
+      const levelsDisplay = ['Initial', 'Kollaborativ', 'Evolutionär', 'Effektiv', 'Adaptiv'];
+      levelsDisplay.forEach((level) => {
+        let className = level === maturityAchieved ? 'active' : '';
+        arrowChartDiv.innerHTML += "<div class='" + className + "'>" + level + '</div>';
+      });
+
+      // Ergebnisse Card: Bedeutung der aktuellen Reifegradstufe
+      let currentMaturityHTML =
+        "<h3>Bedeutung Ihrer aktuellen Reifegradstufe: " + maturityAchieved + '</h3>';
+      currentMaturityHTML += '<p>' + maturityDescriptions[maturityAchieved] + '</p>';
+      document.getElementById('currentMaturityDescription').innerHTML = currentMaturityHTML;
+
+      // Ergebnisse Card: Empfehlungen zur nächsten Stufe
+      let nextMaturityHTML = '';
+      if (nextLevel) {
+        nextMaturityHTML +=
+          '<h3>Empfehlung: Nächste Reifegradstufe – ' + nextLevel + '</h3>';
+        nextMaturityHTML += '<p>' + maturityDescriptions[nextLevel] + '</p><div style="margin-bottom:15px;"></div>';
+        nextMaturityHTML += '<h4>Konkrete Handlungsempfehlungen:</h4>';
+        maturityLevels[nextLevel].forEach((qNum) => {
+          if (detailedRecommendations[qNum]) {
+            let rec = detailedRecommendations[qNum];
+            nextMaturityHTML += "<details class='recommendation'>";
+            nextMaturityHTML += '<summary>' + rec.title + '</summary>';
+            nextMaturityHTML += '<p>' + rec.measure + '</p>';
+            nextMaturityHTML +=
+              "<p class='source'><strong>Quelle(n):</strong> " + rec.source + '</p>';
+            nextMaturityHTML += '</details>';
+          }
+        });
+      } else {
+        nextMaturityHTML +=
+          '<h3>Herzlichen Glückwunsch!</h3><p>Sie haben bereits den höchsten Reifegrad erreicht.</p>';
+      }
+      document.getElementById('nextMaturitySection').innerHTML = nextMaturityHTML;
+
+      // Dimension-Kommentarbox
+      let dimensionCommentaryHTML =
+        "<p>" +
+        "Die folgende Übersicht zeigt den Erfüllungsgrad in den vier zentralen Dimensionen Ihres agilen Projektmanagements: " +
+        "<strong>Kundenfokussierte Anpassungsfähigkeit</strong> misst, wie gut Sie auf Kundenfeedback reagieren; " +
+        "<strong>Produktverbesserung</strong> bewertet Ihre Fähigkeit, das Produkt kontinuierlich zu optimieren; " +
+        "<strong>Menschenzentrierung</strong> zeigt, wie effektiv Ihr Team zusammenarbeitet; " +
+        "und <strong>Technische Exzellenz</strong> beurteilt, wie konsequent technische Best Practices umgesetzt werden. " +
+        "Nutzen Sie diese Übersicht, um gezielt Bereiche zu identifizieren, in denen noch Verbesserungspotenzial besteht." +
+        '</p>';
+      document.getElementById('dimensionCommentary').innerHTML = dimensionCommentaryHTML;
+
+      // Detailübersicht: Aufteilung nach Dimensionen
+      const dimensionStatusDiv = document.getElementById('dimensionStatus');
+      dimensionStatusDiv.innerHTML = '';
+      for (let dimension in dimensionResults) {
+        let lowEndAvg =
+          dimensionResults[dimension].lowEndTotal / dimensionResults[dimension].count;
+        let highEndAvg =
+          dimensionResults[dimension].highEndTotal / dimensionResults[dimension].count;
+        let fulfillment = (lowEndAvg + highEndAvg) / 2;
+        fulfillment = ((fulfillment - 7.5) * 100) / 85;
+        fulfillment = Math.max(0, Math.min(fulfillment, 100));
+        let statusText = getStatusText(fulfillment);
+        let colorClass = getColorClassForPercentage(fulfillment);
+        let percentageRange = getPercentageRange(statusText);
+        dimensionStatusDiv.innerHTML +=
+          "<div class='dimension-container result " +
+          colorClass +
+          "'><strong>" +
+          dimension +
+          '</strong>: ' +
+          statusText +
+          ' (' +
+          percentageRange +
+          ')</div>';
+      }
+
+      // Wechsel zu Ergebnis-Seite (Schritt 5)
+      goToStep(5);
+    }
+
+    function getLowEnd(value) {
+      switch (value) {
+        case 1:
+          return 0;
+        case 2:
+          return 15;
+        case 3:
+          return 40;
+        case 4:
+          return 60;
+        case 5:
+          return 85;
+        default:
+          return 0;
+      }
+    }
+    function getHighEnd(value) {
+      switch (value) {
+        case 1:
+          return 15;
+        case 2:
+          return 40;
+        case 3:
+          return 60;
+        case 4:
+          return 85;
+        case 5:
+          return 100;
+        default:
+          return 100;
+      }
+    }
+    function getColorClassForPercentage(fulfillment) {
+      if (fulfillment < 35) return 'red';
+      else if (fulfillment < 65) return 'orange';
+      else if (fulfillment < 85) return 'yellow';
+      else return 'green';
+    }
+    function getStatusText(fulfillment) {
+      if (fulfillment >= 85 && fulfillment <= 100) return 'Vollständig erreicht';
+      else if (fulfillment >= 65 && fulfillment < 85) return 'Weitgehend erreicht';
+      else if (fulfillment >= 35 && fulfillment < 65) return 'Teilweise erreicht';
+      else if (fulfillment >= 0 && fulfillment < 35) return 'Nicht erreicht';
+      else return '';
+    }
+    function getPercentageRange(status) {
+      switch (status) {
+        case 'Vollständig erreicht':
+          return '85% - 100%';
+        case 'Weitgehend erreicht':
+          return '65% - 85%';
+        case 'Teilweise erreicht':
+          return '35% - 65%';
+        case 'Nicht erreicht':
+          return '0% - 35%';
+        default:
+          return '';
+      }
+    }
+
+    function renderChart(labels, data) {
+      const ctx = document.getElementById('radarChart').getContext('2d');
+      if (radarChart) {
+        radarChart.data.labels = labels;
+        radarChart.data.datasets[0].data = data;
+        radarChart.update();
+      } else {
+        radarChart = new Chart(ctx, {
+          type: 'radar',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Erfüllungsgrad (%)',
+                data: data,
+                backgroundColor: 'rgba(46, 139, 87, 0.2)',
+                borderColor: 'rgba(46, 139, 87, 1)',
+                pointBackgroundColor: 'rgba(46, 139, 87, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(46, 139, 87, 1)'
+              }
+            ]
+          },
+          options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              r: {
+                min: 0,
+                max: 100,
+                ticks: {
+                  stepSize: 5,
+                  callback: function (value) {
+                    return [0, 35, 65, 85, 100].includes(value) ? value + '%' : '';
+                  }
+                },
+                angleLines: { display: true },
+                pointLabels: { font: { size: 14 } }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // -----------------------------------------------
+    // PDF-Export-Funktion: ERSTE SEITE angepasst
+    // -----------------------------------------------
+    async function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // --- Erste Seite (Cover) ---
+      // Schlichte Seite mit dunklem Hintergrund, Logo, Titel, Erstellungszeitpunkt
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+
+      // Hintergrund (dunkles Violett / nach Belieben anpassen)
+      doc.setFillColor(60, 45, 74);
+      doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+      // Weißer Text
+      doc.setTextColor(255, 255, 255);
+
+      // Titel
+      doc.setFontSize(22);
+      doc.text('Management Self Assessment Report', 20, 40);
+
+      // Untertitel
+      doc.setFontSize(14);
+      doc.text('Prepared for Lön', 20, 55);
+
+      // Datum/Uhrzeit
+      const currentDateTime = new Date().toLocaleString();
+      doc.setFontSize(12);
+      doc.text(currentDateTime, 20, 65);
+
+      // Optional: Logo platzieren
+      // Da wir hier ein SVG im HTML haben, könnten wir das nur über
+      // Konvertierung zu PNG/Base64 oder separate Einbindung machen.
+      // Für eine einfache Platzhalter-Lösung:
+      doc.setFontSize(10);
+      doc.text('[Ihr Logo hier]', pageWidth - 40, 20);
+
+      // Neue Seite für Inhalte
+      doc.addPage();
+
+      // Ab hier wie gehabt das weitere PDF (Seite 2+)
+      let lineHeight = 10;
+      let marginLeft = 15;
+      let marginTop = 20;
+
+      // Seite 2: Übersicht der Antworten
+      doc.setFontSize(16);
+      doc.setTextColor(0, 0, 0); // zurück auf Schwarz
+      doc.text('Übersicht der gegebenen Antworten', marginLeft, marginTop);
+      marginTop += 10;
+      doc.setFontSize(12);
+
+      for (let i = 1; i <= 20; i++) {
+        let answer = userAnswers[i] ? userAnswers[i] : 'Nicht beantwortet';
+        doc.text('Frage ' + i + ': ' + answer, marginLeft, marginTop);
+        marginTop += lineHeight;
+        if (marginTop > doc.internal.pageSize.getHeight() - 20) {
+          doc.addPage();
+          marginTop = 20;
+        }
+      }
+
+      doc.addPage();
+
+      // Seite 3: Ergebnisse
+      marginTop = 20;
+      doc.setFontSize(16);
+      doc.text('Ergebnisse des Assessments', marginLeft, marginTop);
+      marginTop += 10;
+      doc.setFontSize(12);
+      doc.text('Aktueller Reifegrad: ' + maturityAchieved, marginLeft, marginTop);
+      marginTop += lineHeight;
+      doc.text(
+        'Nächster angestrebter Reifegrad: ' + (nextLevel ? nextLevel : 'Keine weitere Stufe'),
+        marginLeft,
+        marginTop
+      );
+      marginTop += lineHeight + 5;
+
+      doc.text('Bedeutung der aktuellen Reifegradstufe:', marginLeft, marginTop);
+      marginTop += lineHeight;
+      let pageW = doc.internal.pageSize.getWidth() - marginLeft * 2;
+      let splitCurrent = doc.splitTextToSize(maturityDescriptions[maturityAchieved], pageW);
+      doc.text(splitCurrent, marginLeft, marginTop);
+      marginTop += splitCurrent.length * lineHeight + 5;
+
+      if (nextLevel) {
+        doc.text(
+          'Bedeutung der nächsten Reifegradstufe (' + nextLevel + '):',
+          marginLeft,
+          marginTop
+        );
+        marginTop += lineHeight;
+        let splitNext = doc.splitTextToSize(maturityDescriptions[nextLevel], pageW);
+        doc.text(splitNext, marginLeft, marginTop);
+        marginTop += splitNext.length * lineHeight + 5;
+      }
+
+      doc.addPage();
+
+      // Seite 4: Handlungsempfehlungen
+      marginTop = 20;
+      doc.setFontSize(16);
+      doc.text('Zugeschnittene Handlungsempfehlungen', marginLeft, marginTop);
+      marginTop += 10;
+      doc.setFontSize(12);
+      if (nextLevel) {
+        doc.text(
+          'Für den nächsten angestrebten Reifegrad (' + nextLevel + ') werden folgende Empfehlungen gegeben:',
+          marginLeft,
+          marginTop
+        );
+        marginTop += lineHeight;
+        maturityLevels[nextLevel].forEach((qNum) => {
+          if (detailedRecommendations[qNum]) {
+            let rec = detailedRecommendations[qNum];
+            doc.setFont(undefined, 'bold');
+            doc.text(rec.title, marginLeft, marginTop);
+            marginTop += lineHeight;
+            doc.setFont(undefined, 'normal');
+            let splitRec = doc.splitTextToSize(
+              rec.measure.replace(/<[^>]+>/g, ''),
+              pageW
+            );
+            doc.text(splitRec, marginLeft, marginTop);
+            marginTop += splitRec.length * lineHeight + 5;
+
+            // Quelle
+            let splitSource = doc.splitTextToSize(
+              'Quelle(n): ' + rec.source.replace(/<[^>]+>/g, ''),
+              pageW
+            );
+            doc.text(splitSource, marginLeft, marginTop);
+            marginTop += splitSource.length * lineHeight + 10;
+
+            if (marginTop > doc.internal.pageSize.getHeight() - 20) {
+              doc.addPage();
+              marginTop = 20;
+            }
+          }
+        });
+      } else {
+        doc.text(
+          'Es gibt keine weiteren Empfehlungen, da der höchste Reifegrad bereits erreicht wurde.',
+          marginLeft,
+          marginTop
+        );
+      }
+
+      doc.addPage();
+
+      // Seite 5: Ergebnisse nach Dimensionen
+      marginTop = 20;
+      doc.setFontSize(16);
+      doc.text('Ergebnisse nach Dimensionen', marginLeft, marginTop);
+      marginTop += 10;
+      doc.setFontSize(12);
+
+      for (let dimension in dimensionResults) {
+        let lowEndAvg = dimensionResults[dimension].lowEndTotal / dimensionResults[dimension].count;
+        let highEndAvg =
+          dimensionResults[dimension].highEndTotal / dimensionResults[dimension].count;
+        let fulfillment = (lowEndAvg + highEndAvg) / 2;
+        fulfillment = ((fulfillment - 7.5) * 100) / 85;
+        fulfillment = Math.max(0, Math.min(fulfillment, 100));
+        let statusText = getStatusText(fulfillment);
+        let percentageRange = getPercentageRange(statusText);
+        let textLine =
+          dimension + ': ' + statusText + ' (' + percentageRange + ')';
+        doc.text(textLine, marginLeft, marginTop);
+        marginTop += lineHeight;
+        if (marginTop > doc.internal.pageSize.getHeight() - 20) {
+          doc.addPage();
+          marginTop = 20;
+        }
+      }
+
+      // PDF speichern
+      doc.save('Agiles_Projektmanagement_SelfAssessment.pdf');
+    }
+  </script>
+
+  <!-- Chart.js Bibliothek einbinden -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
